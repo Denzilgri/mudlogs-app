@@ -5,6 +5,9 @@ import TileLayer from 'ol/layer/Tile';
 import VectorLayer from 'ol/layer/Vector';
 import { fromLonLat } from 'ol/proj';
 import { Style, Fill, Stroke } from 'ol/style';
+import VectorTileLayer from 'ol/layer/VectorTile';
+import VectorTileSource from 'ol/source/VectorTile';
+import MVT from 'ol/format/MVT.js';
 
 @Component({
   selector: 'map-component',
@@ -18,6 +21,7 @@ export class MapComponentComponent implements OnInit {
   layer: TileLayer;
   vectorLayer: VectorLayer;
   view: View;
+  key: string = 'sk.eyJ1IjoiZGVuemlsZ3JpIiwiYSI6ImNqemU4bzFpcTAxenUzbXA0YTdpMjAzdXYifQ.-7juqj-TZYBdyJejAxawFw';
 
   constructor() { }
 
@@ -27,7 +31,8 @@ export class MapComponentComponent implements OnInit {
     this.source = new OSM();
 
     this.layer = new TileLayer({
-      source: this.source
+      source: this.source,
+      opacity: 0.3
     });
 
     this.view = new View({
@@ -37,7 +42,19 @@ export class MapComponentComponent implements OnInit {
 
     this.map = new Map({
       target: 'map-container',
-      layers: [this.layer],
+      layers: [this.layer,
+      new VectorTileLayer({
+        declutter: true,
+        source: new VectorTileSource({
+          attributions: '© <a href="https://www.mapbox.com/map-feedback/">Mapbox</a> ' +
+            '© <a href="https://www.openstreetmap.org/copyright">' +
+            'OpenStreetMap contributors</a>',
+          format: new MVT(),
+          url: 'https://{a-d}.tiles.mapbox.com/v4/mapbox.mapbox-streets-v6/' +
+            '{z}/{x}/{y}.vector.pbf?access_token=' + this.key
+        }),
+        style: this.getStyle()
+      })],
       view: this.view
     });
   }
@@ -45,10 +62,10 @@ export class MapComponentComponent implements OnInit {
   getStyle() {
     return new Style({
       fill: new Fill({
-        color: 'rgba(255, 255, 255, 0.6)'
+        color: '#F8F8F8'
       }),
       stroke: new Stroke({
-        color: '#319FD3',
+        color: '#fff',
         width: 1
       })
     });
