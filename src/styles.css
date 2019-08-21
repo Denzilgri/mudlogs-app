@@ -9,3 +9,8 @@ body {
   box-sizing: border-box;
   text-rendering: optimizeSpeed;
 }
+
+.ol-zoom {
+  left: calc(100vw - 2.5em);
+  top: 1em;
+}
