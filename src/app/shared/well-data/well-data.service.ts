@@ -11,7 +11,7 @@ export class WellDataService {
 
   getWellData(): void {
     this.http
-      .get('./countries-geo.json')
+      .get('app/data/countries-geo.json')
       .subscribe(responseData => {
         console.log(responseData);
       });

@@ -93,7 +93,7 @@ export class MapComponent implements OnInit {
     this.map.addOverlay(this.popup);
 
     // event handler to display popup whenever the orange spots are clicked
-    this.map.on('singleclick', (event) => {
+    this.map.on('pointermove', (event) => {
       this.map.forEachFeatureAtPixel(event.pixel,
         (feature) => {
           const content = feature.get('desc');
