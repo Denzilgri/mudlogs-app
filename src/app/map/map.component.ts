@@ -95,34 +95,15 @@ export class MapComponent implements OnInit {
     // event handler to display popup whenever the orange spots are clicked
     this.map.on('pointermove', (event) => {
       this.map.forEachFeatureAtPixel(event.pixel,
-        (feature) => {
+        (feature, layer) => {
           const content = feature.get('desc');
-          if (content) {
-            container.hidden = false;
             this.popup.setPosition(event.coordinate);
-          }
-        },
-        {
-          layerFilter: (layer) => {
-            return (layer.type === new VectorLayer().type) ? true : false;
-          }, hitTolerance: 6
         }
       );
-      if (!content) {
-          container.innerHTML = '';
-          container.hidden = true;
+      if (!this.map.getFeaturesAtPixel(event.pixel)) {
+        this.popup.setPosition(undefined);
       }
     });
-
-    /**
-     * Add a click handler to hide the popup.
-     * @return {boolean} Don't follow the href.
-     */
-    closer.onclick = () => {
-      this.popup.setPosition(undefined);
-      closer.blur();
-      return false;
-    };
 
   }
 

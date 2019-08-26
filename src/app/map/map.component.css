@@ -41,7 +41,7 @@
   top: 2px;
   right: 8px;
 }
-.ol-popup-closer:after {
+.ol-popup-closer:before {
   content: "✖";
 }
 

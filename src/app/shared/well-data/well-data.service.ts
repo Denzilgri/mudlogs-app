@@ -7,13 +7,19 @@ import { Observable } from 'rxjs';
 })
 export class WellDataService {
 
+  wellData: any[];
+
   constructor(private http: HttpClient) { }
 
-  getWellData(): void {
+  fetchWellData(): void {
     this.http
-      .get('app/data/countries-geo.json')
-      .subscribe(responseData => {
-        console.log(responseData);
+      .get('./assets/mudlog.json')
+      .subscribe((responseData: any[]) => {
+        this.wellData = responseData;
       });
+  }
+
+  getWellData() {
+    return this.wellData;
   }
 }
